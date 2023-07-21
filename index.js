@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import createError from "http-errors";
 import { initializeDb } from "./initDb.js";
 import userRoutes from "./routes/users.js";
+import adminRoutes from "./routes/admins.js";
 
 const app = express();
 const port = 3000;
@@ -32,6 +33,7 @@ initializeDb()
   });
 
 app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use((req, res, next) => {
   res.json({ message: "Could not find route" });
