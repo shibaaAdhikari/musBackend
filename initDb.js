@@ -32,7 +32,7 @@ const initializeDb = async () => {
 
     // Create tables if they do not exist
     await sequelize.sync({
-      force: true, // Set to true during development to drop and recreate tables
+      force: false, // Set to true during development to drop and recreate tables
       alter: false,
     });
     console.log("Database synced with Sequelize");

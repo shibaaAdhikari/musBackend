@@ -12,12 +12,6 @@ const Song = sequelize.define("Song", {
     type: DataTypes.CHAR,
     allowNull: false,
   },
-  duration: {
-    type: DataTypes.TIME,
-  },
-  durationInSeconds: {
-    type: DataTypes.FLOAT,
-  },
   artist: {
     type: DataTypes.CHAR,
     allowNull: false,
@@ -33,29 +27,13 @@ const Song = sequelize.define("Song", {
     type: DataTypes.CHAR,
     allowNull: false,
   },
-  release: {
-    type: DataTypes.DATEONLY,
-  },
-  playCount: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-  likedBy: {
-    type: DataTypes.ARRAY(DataTypes.CHAR),
-  },
   coverArt: {
     type: DataTypes.CHAR,
   },
   filePath: {
     type: DataTypes.CHAR,
   },
-  filePathLossy: {
-    type: DataTypes.CHAR,
-  },
   hash: {
-    type: DataTypes.CHAR,
-  },
-  audioHash: {
     type: DataTypes.CHAR,
   },
 });

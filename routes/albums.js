@@ -1,17 +1,16 @@
 import express from "express";
 import { check } from "express-validator";
 import fileUpload from "../middleware/fileUpload.js";
-import {
-  create,
-  getAlbumById,
-  getAlbumsByArtistId,
-} from "../controller/albums.js";
+import { create } from "../controller/albums.js";
 
 const router = express.Router();
 
 router.post(
   "/create",
-  fileUpload.fields([{ name: "songFiles" }, { name: "coverImage" }]),
+  fileUpload.fields([
+    { name: "songFiles", maxCount: 10 },
+    { name: "coverImage", maxCount: 1 },
+  ]),
   [
     check("title").not().isEmpty(),
     check("songs").not().isEmpty(),
@@ -20,8 +19,5 @@ router.post(
   ],
   create
 );
-
-router.get("/:albumId", getAlbumById);
-router.get("/artist/:artistId", getAlbumsByArtistId);
 
 export default router;

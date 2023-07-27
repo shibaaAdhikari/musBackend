@@ -6,7 +6,6 @@ import userRoutes from "./routes/users.js";
 import adminRoutes from "./routes/admins.js";
 import songRoutes from "./routes/songs.js";
 import artistAccountsRoutes from "./routes/artistAccounts.js";
-import artistRoutes from "./routes/artists.js";
 import albumRoutes from "./routes/albums.js";
 import imageRoutes from "./routes/images.js";
 
@@ -41,7 +40,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/artistAccounts", artistAccountsRoutes);
-app.use("/api/artists", artistRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/uploads/images", imageRoutes);
 

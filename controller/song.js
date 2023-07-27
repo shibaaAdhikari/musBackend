@@ -4,7 +4,6 @@ import path from "node:path";
 import { Op } from "sequelize";
 import createError from "http-errors";
 import Album from "../models/album.js";
-import Artist from "../models/artist.js";
 import Song from "../models/song.js";
 import User from "../models/user.js";
 

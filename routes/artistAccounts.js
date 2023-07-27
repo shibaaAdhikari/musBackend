@@ -1,6 +1,6 @@
 import express from "express";
 import { check } from "express-validator";
-import { signup, signin, artists } from "../controller/artistAccounts.js";
+import { signup, signin } from "../controller/artistAccounts.js";
 const router = express.Router();
 
 router.post(
@@ -18,7 +18,5 @@ router.post(
   [check("username").not().isEmail(), check("password").not().isEmpty()],
   signin
 );
-
-router.get("/artists", artists);
 
 export default router;
