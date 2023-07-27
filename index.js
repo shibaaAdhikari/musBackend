@@ -42,6 +42,9 @@ app.use("/api/songs", songRoutes);
 app.use("/api/artistAccounts", artistAccountsRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/uploads/images", imageRoutes);
+app.use(express.urlencoded({ extended: false }));
+
+app.post("/upload", (req, res) => {});
 
 app.use((req, res, next) => {
   res.json({ message: "Could not find route" });
