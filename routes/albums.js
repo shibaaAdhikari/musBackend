@@ -1,7 +1,7 @@
 import express from "express";
 import { check } from "express-validator";
 import fileUpload from "../middleware/fileUpload.js";
-import { create, getAlbumById, getAlbums } from "../controller/albums.js";
+import { create, getAlbumById, getAllAlbums } from "../controller/albums.js";
 
 const router = express.Router();
 
@@ -21,6 +21,6 @@ router.post(
 );
 
 router.get("/:albumid", getAlbumById);
-router.get("/albums", getAlbums);
+router.get("/albums", getAllAlbums);
 
 export default router;

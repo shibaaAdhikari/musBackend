@@ -146,48 +146,41 @@ const getAlbumById = async (req, res) => {
   }
 };
 
-const getAlbums = async (req, res) => {
+const getAllAlbums = async (req, res) => {
   try {
     const albums = await Album.findAll();
+    console
 
-    if (!albums || albums.length === 0) {
-      return res.status(404).json({ error: "No albums found" });
-    }
-
-    const albumsArray = [];
-
-    for (const album of albums) {
-      const songsArray = [];
-      console.log(songsArray);
-      for (const songId of album.songs) {
-        try {
-          const song = await Song.findOne({
-            attributes: ["title"],
-            where: {
-              id: songId,
-            },
-          });
-          console.log(song);
-          songsArray.push({
-            songId: songId,
-            filePath: song.filePath,
-            songTitle: song.title.trimEnd(),
-          });
-        } catch (error) {
-          return res.status(500).json({ error: "Album fetch failed" });
+    const albumsArray = await Promise.all(
+      albums.map(async (album) => {
+        const songsArray = [];
+        for (const songId of album.songs) {
+          try {
+            const song = await Song.findOne({
+              where: {
+                id: songId,
+              },
+            });
+            songsArray.push({
+              songId: songId,
+              filePath: song.toJSON().filePath,
+              songTitle: song.title.trimEnd(),
+            });
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
-
-      albumsArray.push({
-        id: album.id,
-        title: album.title.trimEnd(),
-        songs: songsArray,
-        type: album.type.trimEnd(),
-        artistId: album.artist.trimEnd(),
-        coverImage: album.coverArt.trimEnd(),
-        year: album.year,
-      });
-    }
+        return {
+          id: album.id,
+          title: album.title.trimEnd(),
+          songs: songsArray,
+          type: album.type.trimEnd(),
+          artistId: album.artist.trimEnd(),
+          coverImage: album.coverArt.trimEnd(),
+          year: album.year,
+        };
+      })
+    );
 
     res.json(albumsArray);
   } catch (error) {
@@ -197,4 +190,4 @@ const getAlbums = async (req, res) => {
   }
 };
 
-export { create, getAlbumById, getAlbums };
+export { create, getAlbumById, getAllAlbums };
