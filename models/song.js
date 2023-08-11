@@ -27,13 +27,13 @@ const Song = sequelize.define("Song", {
     type: DataTypes.CHAR,
     allowNull: false,
   },
+  hash: {
+    type: DataTypes.CHAR,
+  },
   coverArt: {
     type: DataTypes.CHAR,
   },
   filePath: {
-    type: DataTypes.CHAR,
-  },
-  hash: {
     type: DataTypes.CHAR,
   },
 });

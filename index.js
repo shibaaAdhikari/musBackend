@@ -8,12 +8,17 @@ import songRoutes from "./routes/songs.js";
 import artistAccountsRoutes from "./routes/artistAccounts.js";
 import albumRoutes from "./routes/albums.js";
 import imageRoutes from "./routes/images.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const app = express();
 const port = 3000;
 
+// Parse JSON request bodies
 app.use(bodyParser.json());
 
+// Set up CORS headers
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -21,11 +26,10 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-
   next();
 });
 
-// Initialize and connect to the PostgreSQL database
+// Initialize and connect to the database
 initializeDb()
   .then(() => {
     app.listen(port, () => {
@@ -36,16 +40,36 @@ initializeDb()
     console.error("Error connecting to the database:", error);
   });
 
+// Set up static routes for images and audio files
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use(
+  "/songs/image",
+  express.static(path.join(__dirname, "./uploads/images/"))
+);
+
+app.use(
+  "/songs/audio",
+  express.static(path.join(__dirname, "./uploads/audio"))
+);
+
+// Define API routes
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/artistAccounts", artistAccountsRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/uploads/images", imageRoutes);
+
+// Handle file uploads
 app.use(express.urlencoded({ extended: false }));
 
-app.post("/upload", (req, res) => {});
+app.post("/upload", (req, res) => {
+  // Handle file upload logic here
+});
 
+// Handle unknown routes and errors
 app.use((req, res, next) => {
   res.json({ message: "Could not find route" });
   return next(createError(404, "Could not find route"));

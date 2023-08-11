@@ -12,12 +12,9 @@ const Album = sequelize.define("Album", {
     type: DataTypes.CHAR,
     allowNull: false,
   },
-  interval: {
-    type: DataTypes.TIME,
-  },
   songs: {
     type: DataTypes.ARRAY(DataTypes.UUID),
-    allowNull: false,
+    allowNull: true,
   },
   type: {
     type: DataTypes.CHAR(6),
@@ -32,7 +29,7 @@ const Album = sequelize.define("Album", {
     type: DataTypes.CHAR,
   },
   year: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.CHAR,
     allowNull: false,
   },
 });
