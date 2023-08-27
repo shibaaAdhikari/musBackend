@@ -20,7 +20,7 @@ router.post(
   create
 );
 
+router.get("/all", getAllAlbums);
 router.get("/:albumid", getAlbumById);
-router.get("/albums", getAllAlbums);
 
 export default router;

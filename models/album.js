@@ -17,12 +17,11 @@ const Album = sequelize.define("Album", {
     allowNull: true,
   },
   type: {
-    type: DataTypes.CHAR(6),
+    type: DataTypes.CHAR,
     allowNull: false,
-    defaultValue: "Album",
   },
   artist: {
-    type: DataTypes.UUID,
+    type: DataTypes.CHAR,
     allowNull: false,
   },
   coverArt: {

@@ -98,9 +98,8 @@ const create = async (req, res, next) => {
 // Assuming you have imported necessary modules and defined your models (Album and Song) here.
 
 const getAlbumById = async (req, res) => {
-  console.log(req);
   const albumId = req.params.albumid;
-  console.log(req.file);
+  // console.log(req.file);
   try {
     const album = await Album.findOne({ where: { id: albumId } });
 
@@ -148,46 +147,66 @@ const getAlbumById = async (req, res) => {
 
 const getAllAlbums = async (req, res) => {
   try {
-    const albums = await Album.findAll();
-    console
+    const albums = await Album.findAll(); // Fetch all albums
+    console.log("Fetched albums:", albums);
+    const albumsArray = [];
 
-    const albumsArray = await Promise.all(
-      albums.map(async (album) => {
-        const songsArray = [];
-        for (const songId of album.songs) {
-          try {
-            const song = await Song.findOne({
-              where: {
-                id: songId,
-              },
-            });
+    for (const album of albums) {
+      const songsArray = [];
+
+      for (const songId of album.songs) {
+        try {
+          const song = await Song.findOne({
+            where: {
+              id: songId,
+            },
+          });
+
+          if (song) {
             songsArray.push({
-              songId: songId,
-              filePath: song.toJSON().filePath,
+              songId: song.id,
+              filePath: song.filePath,
               songTitle: song.title.trimEnd(),
             });
-          } catch (error) {
-            console.log(error);
+          } else {
+            console.log(`Song not found with id: ${songId}`);
           }
+        } catch (error) {
+          console.error(`Error fetching song with id ${songId}: ${error}`);
+          return res.status(500).json({ error: "Album failed" });
         }
-        return {
-          id: album.id,
-          title: album.title.trimEnd(),
-          songs: songsArray,
-          type: album.type.trimEnd(),
-          artistId: album.artist.trimEnd(),
-          coverImage: album.coverArt.trimEnd(),
-          year: album.year,
-        };
-      })
-    );
+      }
 
-    res.json(albumsArray);
+      albumsArray.push({
+        id: album.id,
+        title: album.title.trimEnd(),
+        songs: songsArray,
+        type: album.type.trimEnd(),
+        artistId: album.artist.trimEnd(),
+        coverImage: album.coverArt.trimEnd(),
+        year: album.year,
+      });
+    }
+
+    // Extract album IDs
+    const albumIds = albumsArray.map((album) => album.id);
+
+    // Add album IDs to each album object
+    const albumsWithIds = albumsArray.map((album) => ({
+      ...album,
+      albumIds,
+    }));
+
+    res.json(albumsWithIds);
   } catch (error) {
+    console.error(`Album fetch failed: ${error.message}`);
     return res
       .status(500)
       .json({ error: `Album fetch failed: ${error.message}` });
   }
 };
+
+
+
 
 export { create, getAlbumById, getAllAlbums };

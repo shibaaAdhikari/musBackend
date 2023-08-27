@@ -8,6 +8,7 @@ import songRoutes from "./routes/songs.js";
 import artistAccountsRoutes from "./routes/artistAccounts.js";
 import albumRoutes from "./routes/albums.js";
 import imageRoutes from "./routes/images.js";
+import accountRoutes from "./routes/accounts.js"
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -56,6 +57,7 @@ app.use(
 
 // Define API routes
 app.use("/api/users", userRoutes);
+app.use("/api/accounts", accountRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/artistAccounts", artistAccountsRoutes);

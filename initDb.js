@@ -3,9 +3,9 @@ import pgPromise from "pg-promise";
 import { Sequelize } from "sequelize";
 
 // PostgreSQL Database credentials
-const DATABASE = "shiba";
-const USER = "shiba";
-const PASSWORD = "shiba";
+const DATABASE = "shibaa";
+const USER = "shibaa";
+const PASSWORD = "Shib@123";
 const HOST = "localhost"; // Usually "localhost" for local development
 const PORT = 5432; // Replace with your database port number (default is 5432 for PostgreSQL)
 
