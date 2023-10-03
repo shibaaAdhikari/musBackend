@@ -9,6 +9,7 @@ import artistAccountsRoutes from "./routes/artistAccounts.js";
 import albumRoutes from "./routes/albums.js";
 import imageRoutes from "./routes/images.js";
 import accountRoutes from "./routes/accounts.js"
+import favouriteRoutes from "./routes/favourite.js"
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -63,6 +64,7 @@ app.use("/api/songs", songRoutes);
 app.use("/api/artistAccounts", artistAccountsRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/uploads/images", imageRoutes);
+app.use("/api/favourites",favouriteRoutes);
 
 // Handle file uploads
 app.use(express.urlencoded({ extended: false }));

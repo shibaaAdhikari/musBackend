@@ -145,6 +145,86 @@ const getAlbumById = async (req, res) => {
   }
 };
 
+const updateAlbumById = async (req, res) => {
+  const albumId = req.params.albumid;
+  const { title, type, artistId, coverImage, year, songs } = req.body;
+
+  try {
+    // Check if the album with the given ID exists
+    const existingAlbum = await Album.findOne({ where: { id: albumId } });
+
+    if (!existingAlbum) {
+      return res
+        .status(404)
+        .json({ error: "No album found for the given album ID" });
+    }
+
+    // Update album attributes
+    existingAlbum.title = title;
+    existingAlbum.type = type;
+    existingAlbum.artist = artistId;
+    existingAlbum.coverArt = coverImage;
+    existingAlbum.year = year;
+
+    // Save the updated album
+    await existingAlbum.save();
+
+    // Update or create songs for the album
+    for (const songData of songs) {
+      const { songId, filePath, songTitle } = songData;
+
+      if (songId) {
+        // If songId is provided, update the existing song
+        const existingSong = await Song.findOne({ where: { id: songId } });
+        if (existingSong) {
+          existingSong.filePath = filePath;
+          existingSong.title = songTitle;
+          await existingSong.save();
+        }
+      } else {
+        // If songId is not provided, create a new song
+        await Song.create({
+          filePath,
+          title: songTitle,
+          albumId: albumId,
+        });
+      }
+    }
+
+    res.json({ message: "Album updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: `Album update failed: ${error.message}` });
+  }
+};
+
+const deleteAlbumById = async (req, res) => {
+  const albumId = req.params.albumid;
+
+  try {
+    // Check if the album with the given ID exists
+    const existingAlbum = await Album.findOne({ where: { id: albumId } });
+
+    if (!existingAlbum) {
+      return res
+        .status(404)
+        .json({ error: "No album found for the given album ID" });
+    }
+
+    // Delete the album
+    await existingAlbum.destroy();
+
+    // You can also delete associated songs if needed
+    await Song.destroy({ where: { albumId: albumId } });
+
+    res.json({ message: "Album deleted successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: `Album deletion failed: ${error.message}` });
+  }
+};
 const getAllAlbums = async (req, res) => {
   try {
     const albums = await Album.findAll(); // Fetch all albums
@@ -209,4 +289,4 @@ const getAllAlbums = async (req, res) => {
 
 
 
-export { create, getAlbumById, getAllAlbums };
+export { create, getAlbumById, getAllAlbums , updateAlbumById , deleteAlbumById};
