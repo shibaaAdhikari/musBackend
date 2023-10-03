@@ -1,49 +1,49 @@
-// import multer from "multer";
-// import { v1 as uuidv1 } from "uuid";
+import multer from "multer";
 
-// const SONG_MIME_TYPE_MAP = {
-//   "audio/flac": "flac",
-//   "audio/x-flac": "flac",
-//   "audio/wave": "wav",
-//   "audio/wav": "wav",
-//   "audio/x-wav": "wav",
-//   "audio/x-pn-wav": "wav",
-// };
+const SONG_MIME_TYPE_MAP = {
+  "audio/flac": "flac",
+  "audio/mp3": "mp3",
+  "audio/wave": "wav",
+  "audio/wav": "wav",
+  "audio/x-wav": "wav",
+  "audio/x-pn-wav": "wav",
+};
 
-// const IMAGE_MIME_TYPE_MAP = {
-//   "image/jpeg": "jpg",
-//   "image/png": "png",
-//   "image/webp": "webp",
-// };
+const IMAGE_MIME_TYPE_MAP = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
 
-// const isSong = (mimetype) => {
-//   return !!SONG_MIME_TYPE_MAP[mimetype];
-// };
+// Set the storage engine for image and audio files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, "uploads/images/");
+    } else if (file.mimetype.startsWith("audio/")) {
+      cb(null, "uploads/audio/");
+    } else {
+      cb(new Error("Invalid file type."));
+    }
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extension = getExtensionByMimeType(file.mimetype);
+    cb(null, `file_${uniqueSuffix}.${extension}`);
+  },
+});
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, callback) => {
-//     if (isSong(file.mimetype)) {
-//       callback(null, "uploads/songs");
-//     } else {
-//       callback(null, "uploads/images");
-//     }
-//   },
-//   filename: (req, file, callback) => {
-//     const ext = isSong(file.mimetype)
-//       ? SONG_MIME_TYPE_MAP[file.mimetype]
-//       : IMAGE_MIME_TYPE_MAP[file.mimetype];
-//     callback(null, uuidv1() + "." + ext);
-//   },
-// });
+// Function to get file extension based on MIME type
+const getExtensionByMimeType = (mimeType) => {
+  if (mimeType.startsWith("image/")) {
+    return IMAGE_MIME_TYPE_MAP[mimeType] || "jpg"; // Default to 'jpg' if MIME type is unknown
+  } else if (mimeType.startsWith("audio/")) {
+    return SONG_MIME_TYPE_MAP[mimeType] || "mp3"; // Default to 'mp3' if MIME type is unknown
+  } else {
+    throw new Error("Invalid file type.");
+  }
+};
 
-// const fileFilter = (req, file, callback) => {
-//   const isValid =
-//     !!SONG_MIME_TYPE_MAP[file.mimetype] || !!IMAGE_MIME_TYPE_MAP[file.mimetype];
-//   let error = isValid ? null : new Error("Invalid mime type");
-//   callback(error, isValid);
-// };
+const upload = multer({ storage });
 
-// export default multer({
-//   storage: storage,
-//   fileFilter: fileFilter,
-// });
+export default upload;

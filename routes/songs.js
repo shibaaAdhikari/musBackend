@@ -1,16 +1,12 @@
-// import express from "express";
-// import { check } from "express-validator";
-// import songsControllers from "../controller/song.js";
+import express from "express";
+import { check } from "express-validator";
+import { getSongMetadata, search, stream } from "../controller/song.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.get("/:songId", songsControllers.getSongMetadata);
+router.get("/:songId", getSongMetadata);
 
-// router.post(
-//   "/search/",
-//   [check("searchQuery").not().isEmpty()],
-//   songsControllers.search
-// );
+router.post("/search/", [check("searchQuery").not().isEmpty()], search);
 
-// router.get("/stream/:songId/:userId", songsControllers.stream);
-// export default router;
+router.get("/stream/:songId/:userId", stream);
+export default router;
