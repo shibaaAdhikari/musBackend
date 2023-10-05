@@ -1,9 +1,10 @@
 import express from "express";
-import { create, remove } from "../controller/favourites.js";
+import { create, remove,display } from "../controller/favourites.js";
 
 const router = express.Router();
 
-router.post("/addtofavourites",create);
-router.post("/removefromfavourites",remove);
+router.post("/addtofavourites/:songId",create);
+router.delete("/removefromfavourites",remove);
+router.post("/displayfavourites",display);
 
 export default router;

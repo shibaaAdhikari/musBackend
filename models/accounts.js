@@ -2,6 +2,12 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../initDb.js";
 
 const Account = sequelize.define('Account', {
+    userId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true, // Auto-generate user IDs
+        allowNull: true, // Allow automatic generation
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -20,11 +26,10 @@ const Account = sequelize.define('Account', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    tokenId: {
-      type: DataTypes.STRING, // Use an appropriate data type for token IDs
-      allowNull: true, // Tokens may not exist for all accounts
-      unique: true, // Ensure each token is associated with only one account
-  },
+    refreshToken: {
+        type: DataTypes.STRING, // Use an appropriate data type for tokens
+        allowNull: true, // Tokens may not exist for all accounts
+    }  
 });
 
 export default Account;
