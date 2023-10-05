@@ -1,7 +1,7 @@
 import express from "express";
 import { check } from "express-validator";
 import fileUpload from "../middleware/fileUpload.js";
-import { create, getAlbumById, getAllAlbums,updateAlbumById ,deleteAlbumById } from "../controller/albums.js";
+import { create, getAlbumById, getAllAlbums,updateAlbumById ,deleteAlbumById,getSongsByGenre } from "../controller/albums.js";
 
 const router = express.Router();
 
@@ -24,5 +24,7 @@ router.get("/all", getAllAlbums);
 router.get("/:albumid", getAlbumById);
 router.put("/update",updateAlbumById);
 router.get("/delete",deleteAlbumById );
+router.get("/genre/:genre", getSongsByGenre);
+
 
 export default router;

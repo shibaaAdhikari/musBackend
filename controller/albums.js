@@ -285,8 +285,58 @@ const getAllAlbums = async (req, res) => {
       .json({ error: `Album fetch failed: ${error.message}` });
   }
 };
+const getSongsByGenre = async (req, res) => {
+  const albumGenre = req.params.genre;
+
+  try {
+    // Find all albums with the specified genre
+    const albums = await Album.findAll({
+      where: {
+        type: albumGenre,
+      },
+    });
+
+    if (!albums || !Array.isArray(albums)) {
+      return res
+        .status(404)
+        .json({ error: `No albums found for the genre: ${albumGenre}` });
+    }
+
+    const songsArray = [];
+
+    // Iterate through albums and retrieve songs from each album
+    for (const album of albums) {
+      const albumSongs = await Song.findAll({
+        where: {
+          album: album.id,
+        },
+      });
+
+      if (albumSongs && Array.isArray(albumSongs)) {
+        albumSongs.forEach((song) => {
+          songsArray.push({
+            songId: song.id,
+            filePath: song.filePath,
+            songTitle: song.title.trimEnd(),
+          });
+        });
+      }
+    }
+
+    if (songsArray.length === 0) {
+      return res
+        .status(404)
+        .json({ error: `No songs found for the genre: ${albumGenre}` });
+    }
+
+    res.json(songsArray);
+  } catch (error) {
+    console.error(`Error fetching songs by genre: ${error.message}`);
+    return res.status(500).json({ error: `Error fetching songs by genre: ${error.message}` });
+  }
+};
 
 
 
 
-export { create, getAlbumById, getAllAlbums , updateAlbumById , deleteAlbumById};
+export { create, getAlbumById, getAllAlbums , updateAlbumById , deleteAlbumById , getSongsByGenre};

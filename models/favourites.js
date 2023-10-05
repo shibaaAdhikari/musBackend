@@ -8,15 +8,24 @@ const Favourites = sequelize.define("Favourites", {
     allowNull: false,
     primaryKey: true,
   },
-  userId: {
-    type: DataTypes.INTEGER, // Change the data type to INTEGER
+  username: {
+    type: DataTypes.STRING, // Assuming the username is a string
     allowNull: false,
   },
-  songId: { // Renamed from "songid" to follow naming conventions
+  songId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
   },
+  title: {
+    type: DataTypes.STRING, // Assuming title is a string
+    allowNull: false,
+  },
+  songTitle: {
+    type: DataTypes.STRING, // Assuming songTitle is a string
+    allowNull: false,
+  },
 });
+
 
 export default Favourites;
