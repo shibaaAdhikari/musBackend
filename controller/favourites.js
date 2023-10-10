@@ -116,11 +116,13 @@ const display = async (req, res) => {
 
 
 
-const remove = async (req, res) => {
+const remove= async (req, res) => {
+  console.log(req)
   try {
     const { username, songId } = req.body;
 
     // Delete the record from the "Favourites" table based on the username and songId.
+    // This assumes you are using a database ORM like Sequelize.
     await Favourites.destroy({
       where: { username, songId },
     });
@@ -131,5 +133,6 @@ const remove = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 export {create,remove,display}

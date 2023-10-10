@@ -318,6 +318,7 @@ const getSongsByGenre = async (req, res) => {
             songId: song.id,
             filePath: song.filePath,
             songTitle: song.title.trimEnd(),
+            artistId: song.artist.trimEnd(),
           });
         });
       }
