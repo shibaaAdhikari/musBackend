@@ -13,6 +13,7 @@ import favouriteRoutes from "./routes/favourite.js"
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import playcountRoutes from "./routes/playcount.js"
 
 const app = express();
 const port = 3000;
@@ -65,6 +66,7 @@ app.use("/api/artistAccounts", artistAccountsRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/uploads/images", imageRoutes);
 app.use("/api/favourites",favouriteRoutes);
+app.use("/api/playcounts",playcountRoutes)
 
 // Handle file uploads
 app.use(express.urlencoded({ extended: false }));
