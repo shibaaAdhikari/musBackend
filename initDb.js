@@ -3,9 +3,9 @@ import pgPromise from "pg-promise";
 import { Sequelize } from "sequelize";
 
 // PostgreSQL Database credentials
-const DATABASE = "shiba";
-const USER = "shiba";
-const PASSWORD = "shiba";
+const DATABASE = "shibaa";
+const USER = "shibaa";
+const PASSWORD = "Shib@123";
 const HOST = "localhost"; // Usually "localhost" for local development
 const PORT = 5432; // Replace with your database port number (default is 5432 for PostgreSQL)
 
@@ -32,7 +32,7 @@ const initializeDb = async () => {
 
     // Create tables if they do not exist
     await sequelize.sync({
-      force: true, // Set to true during development to drop and recreate tables
+      force: false, // Set to true during development to drop and recreate tables
       alter: false,
     });
     console.log("Database synced with Sequelize");
