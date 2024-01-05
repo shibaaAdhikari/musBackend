@@ -23,7 +23,7 @@ router.post(
 router.get("/all", getAllAlbums);
 router.get("/:albumid", getAlbumById);
 router.put("/update",updateAlbumById);
-router.get("/delete",deleteAlbumById );
+router.delete("/delete/:albumId",deleteAlbumById );
 router.get("/genre/:genre", getSongsByGenre);
 
 
